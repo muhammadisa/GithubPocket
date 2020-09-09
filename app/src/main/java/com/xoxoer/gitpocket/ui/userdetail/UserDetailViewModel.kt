@@ -1,4 +1,4 @@
-package com.xoxoer.gitpocket.ui.user
+package com.xoxoer.gitpocket.ui.userdetail
 
 import android.util.Log
 import androidx.databinding.ObservableBoolean
@@ -6,8 +6,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.xoxoer.gitpocket.models.User
-import com.xoxoer.gitpocket.models.user.GitUsers
+import com.xoxoer.gitpocket.models.userdetail.GitUserDetail
 import com.xoxoer.gitpocket.util.apisingleobserver.ApiSingleObserver
 import com.xoxoer.gitpocket.util.apisingleobserver.Error
 import com.xoxoer.gitpocket.viewmodels.ViewModelContract
@@ -15,17 +14,17 @@ import com.xoxoer.lifemarklibrary.Lifemark
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class UserViewModel @Inject constructor(
+class UserDetailViewModel @Inject constructor(
     private val lifemark: Lifemark,
-    private val userRepository: UserRepository
+    private val userDetailRepository: UserDetailRepository
 ) : ViewModel(), ViewModelContract {
 
-    var searchQuery = ObservableField("")
+    var userName = ObservableField("")
 
     // users live data
-    private val _usersSuccess = MutableLiveData<GitUsers>()
-    val usersSuccess: LiveData<GitUsers>
-        get() = _usersSuccess
+    private val _userDetailSuccess = MutableLiveData<GitUserDetail>()
+    val userDetailSuccess: LiveData<GitUserDetail>
+        get() = _userDetailSuccess
 
     override var valid = ObservableBoolean()
     override val isLoading = MutableLiveData<Boolean>()
@@ -71,11 +70,11 @@ class UserViewModel @Inject constructor(
         }
 
     fun retrieveUsers() {
-        userRepository.getUsers(
-            searchQuery.get()!!,
+        userDetailRepository.getUserDetail(
+            userName.get()!!,
             { onStart() },
             { onFinish() },
-            handler(_usersSuccess)
+            handler(_userDetailSuccess)
         )
     }
 }

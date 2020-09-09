@@ -1,22 +1,22 @@
-package com.xoxoer.gitpocket.ui.user
+package com.xoxoer.gitpocket.ui.userdetail
 
-import com.xoxoer.gitpocket.models.user.GitUsers
-import com.xoxoer.gitpocket.network.UserApi
+import com.xoxoer.gitpocket.models.userdetail.GitUserDetail
+import com.xoxoer.gitpocket.network.UserDetailApi
 import com.xoxoer.gitpocket.util.apisingleobserver.ApiSingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(
-    private val userApi: UserApi
+class UserDetailRepository @Inject constructor(
+    private val userDetailApi: UserDetailApi
 ) {
-    fun getUsers(
-        query: String,
+    fun getUserDetail(
+        username: String,
         onStart: () -> Unit,
         onFinish: () -> Unit,
-        handler: ApiSingleObserver<GitUsers>
+        handler: ApiSingleObserver<GitUserDetail>
     ) {
-        userApi.getUser(query)
+        userDetailApi.getUserDetail(username)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { onStart() }

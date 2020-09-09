@@ -1,4 +1,4 @@
-package com.xoxoer.gitpocket.network.user
+package com.xoxoer.gitpocket.network
 
 import com.xoxoer.gitpocket.models.user.GitUsers
 import io.reactivex.Single
