@@ -1,20 +1,81 @@
 package com.xoxoer.gitpocket.ui.user
 
 import android.util.Log
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.xoxoer.gitpocket.models.User
-import com.xoxoer.gitpocket.network.user.UserApi
-import io.reactivex.Observable
-import io.reactivex.Observer
-import io.reactivex.schedulers.Schedulers
+import com.xoxoer.gitpocket.models.user.GitUsers
+import com.xoxoer.gitpocket.util.apisingleobserver.ApiSingleObserver
+import com.xoxoer.gitpocket.util.apisingleobserver.Error
+import com.xoxoer.gitpocket.viewmodels.ViewModelContract
+import com.xoxoer.lifemarklibrary.Lifemark
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class UserViewModel @Inject constructor(
-    val userApi: UserApi
-) : ViewModel() {
-    init {
-        Log.e("FROM_USER_VM", "Hello from user view model")
+    private val lifemark: Lifemark,
+    private val userRepository: UserRepository
+) : ViewModel(), ViewModelContract {
+
+    var searchQuery = ObservableField("Mitch")
+
+    // users live data
+    private val _usersSuccess = MutableLiveData<GitUsers>()
+    val usersSuccess: LiveData<GitUsers>
+        get() = _usersSuccess
+
+    override var valid = ObservableBoolean()
+    override val isLoading = MutableLiveData<Boolean>()
+    override val error = ObservableField<Boolean>()
+    override val errorReason = ObservableField<String>()
+
+    private fun <T> errorDispatcher(
+        errorReason: String,
+        targetMutable: MutableLiveData<T>
+    ) {
+        this.error.set(true)
+        this.errorReason.set(errorReason)
+        targetMutable.value = null
+        Log.e("ERROR_REASON", this.errorReason.get()!!)
     }
 
-    fun checkUserApi() {}
+    private fun onStart() {
+        isLoading.value = true
+    }
+
+    private fun onFinish() {
+        isLoading.value = false
+    }
+
+    private fun <T> handler(targetMutable: MutableLiveData<T>) =
+        object : ApiSingleObserver<T>(CompositeDisposable()) {
+            override fun onResult(data: T) {
+                targetMutable.value = data
+            }
+
+            override fun onError(e: Error) {
+                when (lifemark.isNetworkConnected()) {
+                    true -> errorDispatcher(
+                        e.message,
+                        targetMutable
+                    )
+                    false -> errorDispatcher(
+                        "No Internet Connection",
+                        targetMutable
+                    )
+                }
+            }
+        }
+
+    fun retrieveUsers() {
+        userRepository.getUsers(
+            searchQuery.get()!!,
+            { onStart() },
+            { onFinish() },
+            handler(_usersSuccess)
+        )
+    }
 }

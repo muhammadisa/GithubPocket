@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GitPocket</string>
+    <string name="github_username">Github username</string>
+    <string name="results">Results of</string>
+    <string name="user_avatar">User avatar</string>
+    <string name="search_github_user">Search github user</string>
 </resources>

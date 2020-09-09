@@ -8,6 +8,7 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.xoxoer.gitpocket.Constants
 import com.xoxoer.gitpocket.R
+import com.xoxoer.lifemarklibrary.Lifemark
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -17,6 +18,13 @@ import javax.inject.Singleton
 
 @Module
 object AppModule {
+
+    @Singleton
+    @Provides
+    @JvmStatic
+    fun providesLifemark(application: Application): Lifemark {
+        return Lifemark(application)
+    }
 
     @Singleton
     @Provides
