@@ -4,4 +4,10 @@
     <string name="results">Results of</string>
     <string name="user_avatar">User avatar</string>
     <string name="search_github_user">Search github user</string>
+    <string name="location">Location</string>
+    <string name="social_media_and_article">Social Media and Article</string>
+    <string name="location_mark">location mark</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
+    <string name="repositories_and_popularity">Repositories and Popularity</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.xoxoer.gitpocket.ui.user.adapter
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.xoxoer.gitpocket.R
 import com.xoxoer.gitpocket.models.user.Item
+import com.xoxoer.gitpocket.ui.userdetail.UserDetailActivity
 import com.xoxoer.gitpocket.util.common.circle
 import kotlinx.android.synthetic.main.card_view_user.view.*
 
@@ -19,7 +21,7 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
 
     private var users = listOf<Item>()
 
-    internal fun setUsers(users: List<Item>){
+    internal fun setUsers(users: List<Item>) {
         this.users = users
         notifyDataSetChanged()
     }
@@ -47,6 +49,7 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
             userCardViewType.text = currentUser.type
             userCardUser.setOnClickListener {
                 Log.e(tag, "current user ${currentUser.login}")
+                it.context.startActivity(Intent(it.context, UserDetailActivity::class.java))
             }
         }
     }

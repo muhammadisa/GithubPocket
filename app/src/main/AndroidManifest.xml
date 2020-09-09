@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".ui.userdetail.UserDetailActivity"></activity>
         <activity
             android:name=".ui.splash.SplashActivity"
             android:noHistory="true">
@@ -25,9 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.user.UserActivity" />
-
     </application>
 
 </manifest>
