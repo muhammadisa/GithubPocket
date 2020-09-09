@@ -69,7 +69,7 @@ class UserDetailViewModel @Inject constructor(
             }
         }
 
-    fun retrieveUsers() {
+    fun retrieveUserDetail() {
         userDetailRepository.getUserDetail(
             userName.get()!!,
             { onStart() },

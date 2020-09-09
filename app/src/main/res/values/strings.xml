@@ -10,4 +10,5 @@
     <string name="following">Following</string>
     <string name="followers">Followers</string>
     <string name="repositories_and_popularity">Repositories and Popularity</string>
+    <string name="bio">Bio</string>
 </resources>

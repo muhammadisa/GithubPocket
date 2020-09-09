@@ -49,7 +49,8 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
             userCardViewType.text = currentUser.type
             userCardUser.setOnClickListener {
                 Log.e(tag, "current user ${currentUser.login}")
-                it.context.startActivity(Intent(it.context, UserDetailActivity::class.java))
+                it.context.startActivity(Intent(it.context, UserDetailActivity::class.java)
+                    .putExtra("USERNAME", currentUser.login))
             }
         }
     }
