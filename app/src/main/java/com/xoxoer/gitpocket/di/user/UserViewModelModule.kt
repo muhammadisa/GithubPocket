@@ -1,7 +1,7 @@
 package com.xoxoer.gitpocket.di.user
 
 import androidx.lifecycle.ViewModel
-import com.xoxoer.gitpocket.anotation.ViewModelKey
+import com.xoxoer.gitpocket.di.ViewModelKey
 import com.xoxoer.gitpocket.ui.user.UserViewModel
 import dagger.Binds
 import dagger.Module

@@ -6,7 +6,6 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.xoxoer.gitpocket.models.User
 import com.xoxoer.gitpocket.models.user.GitUsers
 import com.xoxoer.gitpocket.util.apisingleobserver.ApiSingleObserver
 import com.xoxoer.gitpocket.util.apisingleobserver.Error

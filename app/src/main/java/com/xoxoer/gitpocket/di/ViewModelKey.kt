@@ -1,4 +1,4 @@
-package com.xoxoer.gitpocket.anotation
+package com.xoxoer.gitpocket.di
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
