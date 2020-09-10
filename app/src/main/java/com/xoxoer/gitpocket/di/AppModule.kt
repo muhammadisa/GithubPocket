@@ -11,6 +11,8 @@ import com.xoxoer.gitpocket.R
 import com.xoxoer.lifemarklibrary.Lifemark
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,8 +32,13 @@ object AppModule {
     @Provides
     @JvmStatic
     fun providesRetrofitInstance(): Retrofit {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
+            .client(OkHttpClient.Builder().addInterceptor(loggingInterceptor).build())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

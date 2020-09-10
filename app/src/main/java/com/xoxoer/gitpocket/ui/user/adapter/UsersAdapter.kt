@@ -22,12 +22,18 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
     private val users: MutableList<Item> = mutableListOf()
 
     internal fun setUsers(users: List<Item>, append: Boolean) {
-        if (append) this.users.addAll(users)
-        else {
+        if (append) {
+            this.users.addAll(users)
+        } else {
             this.users.clear()
             this.users.addAll(users)
         }
         notifyDataSetChanged()
+    }
+
+    internal fun clearUsers() {
+        this.users.clear()
+        notifyItemRangeChanged(0, this.users.size)
     }
 
     inner class UsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

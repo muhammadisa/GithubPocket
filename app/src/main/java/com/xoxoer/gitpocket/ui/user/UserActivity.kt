@@ -56,6 +56,13 @@ class UserActivity : DaggerAppCompatActivity() {
         editTextSearchUser.onSearchPressed {
             userViewModel.retrieveUsers()
             this.dismissKeyboard()
+            editTextSearchUser.clearFocus()
+        }
+        editTextSearchUser.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                userViewModel.page.set(1)
+                usersAdapter.clearUsers()
+            }
         }
         buttonLoadMoreUser.setOnClickListener {
             val currentPage = userViewModel.page.get()!!

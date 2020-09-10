@@ -20,6 +20,9 @@ class PopularityViewModel @Inject constructor(
 ) : ViewModel(), ViewModelContract {
 
     var userName = ObservableField("")
+    var page = ObservableField(1)
+    var append = ObservableBoolean(false)
+    var mode = ObservableField<String>()
 
     // users live data
     private val _userPopularitySuccess = MutableLiveData<List<Item>>()
@@ -72,6 +75,8 @@ class PopularityViewModel @Inject constructor(
     fun retrieveUserFollowers() {
         popularityRepository.getUserFollowers(
             userName.get()!!,
+            10,
+            page.get()!!,
             { onStart() },
             { onFinish() },
             handler(_userPopularitySuccess)
@@ -81,6 +86,8 @@ class PopularityViewModel @Inject constructor(
     fun retrieveUserFollowings() {
         popularityRepository.getUserFollowings(
             userName.get()!!,
+            10,
+            page.get()!!,
             { onStart() },
             { onFinish() },
             handler(_userPopularitySuccess)

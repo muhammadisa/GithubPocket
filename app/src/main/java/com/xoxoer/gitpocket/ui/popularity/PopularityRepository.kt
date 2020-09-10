@@ -12,11 +12,13 @@ class PopularityRepository @Inject constructor(
 ) {
     fun getUserFollowers(
         username: String,
+        perPage: Int,
+        page: Int,
         onStart: () -> Unit,
         onFinish: () -> Unit,
         handler: ApiSingleObserver<List<Item>>
     ) {
-        popularityApi.getUserFollowers(username)
+        popularityApi.getUserFollowers(username, perPage, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { onStart() }
@@ -27,11 +29,13 @@ class PopularityRepository @Inject constructor(
 
     fun getUserFollowings(
         username: String,
+        perPage: Int,
+        page: Int,
         onStart: () -> Unit,
         onFinish: () -> Unit,
         handler: ApiSingleObserver<List<Item>>
     ) {
-        popularityApi.getUserFollowings(username)
+        popularityApi.getUserFollowings(username, perPage, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { onStart() }

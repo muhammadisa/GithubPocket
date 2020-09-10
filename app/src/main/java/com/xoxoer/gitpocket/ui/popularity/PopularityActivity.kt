@@ -45,7 +45,23 @@ class PopularityActivity : DaggerAppCompatActivity() {
     }
 
     private fun bindUI(gitPopularity: List<Item>) {
-        usersAdapter.setUsers(gitPopularity, false)
+        usersAdapter.setUsers(gitPopularity, popularityViewModel.append.get())
+    }
+
+    private fun initUI() {
+        buttonLoadMorePopularity.setOnClickListener {
+            val currentPage = popularityViewModel.page.get()!!
+            popularityViewModel.page.set(currentPage + 1)
+            popularityViewModel.append.set(true)
+            determineFetchMode()
+        }
+    }
+
+    private fun determineFetchMode() {
+        when (popularityViewModel.mode.get()!!) {
+            "Followers" -> popularityViewModel.retrieveUserFollowers()
+            "Followings" -> popularityViewModel.retrieveUserFollowings()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,12 +74,11 @@ class PopularityActivity : DaggerAppCompatActivity() {
         // initialization
         intent.getParcelableExtra<Popularity>("POPULARITY").apply {
             popularityViewModel.userName.set(this!!.username)
+            popularityViewModel.mode.set(this.popularityMode)
             setToolbar(this)
-            when (this.popularityMode) {
-                "Followers" -> popularityViewModel.retrieveUserFollowers()
-                "Followings" -> popularityViewModel.retrieveUserFollowings()
-            }
+            determineFetchMode()
         }
+        initUI()
         initUserAdapter()
 
         // retrieve section
