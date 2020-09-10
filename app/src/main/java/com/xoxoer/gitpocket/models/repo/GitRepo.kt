@@ -93,7 +93,7 @@ data class GitRepo(
     @SerializedName("languages_url")
     val languagesUrl: String,
     @SerializedName("license")
-    val license: License,
+    val license: License?,
     @SerializedName("merges_url")
     val mergesUrl: String,
     @SerializedName("milestones_url")
