@@ -97,6 +97,12 @@
                 android:layout_height="match_parent"
                 tools:listitem="@layout/card_view_user" />
 
+            <Button
+                android:id="@+id/buttonLoadMoreUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/load_more" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -133,6 +139,21 @@
             android:layout_weight="1"
             android:textStyle="bold"
             tools:text="18" />
+
+        <TextView
+            android:id="@+id/textViewPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="@string/page" />
+
+        <TextView
+            android:id="@+id/textViewCurrentPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:textStyle="bold"
+            tools:text="Page" />
 
     </LinearLayout>
 

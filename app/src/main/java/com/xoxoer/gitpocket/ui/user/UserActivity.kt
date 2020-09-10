@@ -45,7 +45,8 @@ class UserActivity : DaggerAppCompatActivity() {
     private fun bindUI(gitUsers: GitUsers) {
         textViewTotal.text = gitUsers.total_count.toString()
         textViewQuery.text = userViewModel.searchQuery.get().toString()
-        usersAdapter.setUsers(gitUsers.items)
+        textViewCurrentPage.text = userViewModel.page.get().toString()
+        usersAdapter.setUsers(gitUsers.items, userViewModel.append.get())
     }
 
     private fun initUI() {
@@ -55,6 +56,12 @@ class UserActivity : DaggerAppCompatActivity() {
         editTextSearchUser.onSearchPressed {
             userViewModel.retrieveUsers()
             this.dismissKeyboard()
+        }
+        buttonLoadMoreUser.setOnClickListener {
+            val currentPage = userViewModel.page.get()!!
+            userViewModel.page.set(currentPage + 1)
+            userViewModel.append.set(true)
+            userViewModel.retrieveUsers()
         }
     }
 

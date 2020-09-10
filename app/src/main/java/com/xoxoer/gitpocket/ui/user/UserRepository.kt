@@ -12,11 +12,13 @@ class UserRepository @Inject constructor(
 ) {
     fun getUsers(
         query: String,
+        perPage: Int,
+        page: Int,
         onStart: () -> Unit,
         onFinish: () -> Unit,
         handler: ApiSingleObserver<GitUsers>
     ) {
-        userApi.getUser(query)
+        userApi.getUser(query, perPage, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { onStart() }

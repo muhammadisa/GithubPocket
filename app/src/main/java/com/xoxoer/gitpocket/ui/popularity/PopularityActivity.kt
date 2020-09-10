@@ -45,7 +45,7 @@ class PopularityActivity : DaggerAppCompatActivity() {
     }
 
     private fun bindUI(gitPopularity: List<Item>) {
-        usersAdapter.setUsers(gitPopularity)
+        usersAdapter.setUsers(gitPopularity, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

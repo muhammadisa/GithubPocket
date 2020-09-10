@@ -20,6 +20,8 @@ class UserViewModel @Inject constructor(
 ) : ViewModel(), ViewModelContract {
 
     var searchQuery = ObservableField("")
+    var page = ObservableField(1)
+    var append = ObservableBoolean(false)
 
     // users live data
     private val _usersSuccess = MutableLiveData<GitUsers>()
@@ -72,6 +74,8 @@ class UserViewModel @Inject constructor(
     fun retrieveUsers() {
         userRepository.getUsers(
             searchQuery.get()!!,
+            10,
+            page.get()!!,
             { onStart() },
             { onFinish() },
             handler(_usersSuccess)

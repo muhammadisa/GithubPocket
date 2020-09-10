@@ -19,10 +19,14 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
 
     private val tag = "UserAdapter"
 
-    private var users = listOf<Item>()
+    private val users: MutableList<Item> = mutableListOf()
 
-    internal fun setUsers(users: List<Item>) {
-        this.users = users
+    internal fun setUsers(users: List<Item>, append: Boolean) {
+        if (append) this.users.addAll(users)
+        else {
+            this.users.clear()
+            this.users.addAll(users)
+        }
         notifyDataSetChanged()
     }
 
@@ -49,8 +53,10 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
             userCardViewType.text = currentUser.type
             userCardUser.setOnClickListener {
                 Log.e(tag, "current user ${currentUser.login}")
-                it.context.startActivity(Intent(it.context, UserDetailActivity::class.java)
-                    .putExtra("USERNAME", currentUser.login))
+                it.context.startActivity(
+                    Intent(it.context, UserDetailActivity::class.java)
+                        .putExtra("USERNAME", currentUser.login)
+                )
             }
         }
     }

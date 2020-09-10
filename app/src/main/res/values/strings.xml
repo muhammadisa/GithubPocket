@@ -11,4 +11,6 @@
     <string name="followers">Followers</string>
     <string name="repositories_and_popularity">Repositories and Popularity</string>
     <string name="bio">Bio</string>
+    <string name="load_more">Load more</string>
+    <string name="page">Page</string>
 </resources>
