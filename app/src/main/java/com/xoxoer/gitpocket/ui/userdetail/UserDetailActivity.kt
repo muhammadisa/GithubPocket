@@ -3,13 +3,13 @@ package com.xoxoer.gitpocket.ui.userdetail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.xoxoer.gitpocket.R
 import com.xoxoer.gitpocket.models.parcelable.Popularity
 import com.xoxoer.gitpocket.models.userdetail.GitUserDetail
 import com.xoxoer.gitpocket.ui.popularity.PopularityActivity
+import com.xoxoer.gitpocket.ui.repo.RepoActivity
 import com.xoxoer.gitpocket.util.common.circle
 import com.xoxoer.gitpocket.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
@@ -54,23 +54,30 @@ class UserDetailActivity : DaggerAppCompatActivity() {
         buttonShowFollowers.setOnClickListener {
             startActivity(
                 Intent(this@UserDetailActivity, PopularityActivity::class.java)
-                    .putExtra("POPULARITY", Popularity(
-                        "Followers",
-                        userDetailViewModel.userName.get()!!
-                    ))
+                    .putExtra(
+                        "POPULARITY", Popularity(
+                            "Followers",
+                            userDetailViewModel.userName.get()!!
+                        )
+                    )
             )
         }
         buttonShowFollowing.setOnClickListener {
             startActivity(
                 Intent(this@UserDetailActivity, PopularityActivity::class.java)
-                    .putExtra("POPULARITY", Popularity(
-                        "Followings",
-                        userDetailViewModel.userName.get()!!
-                    ))
+                    .putExtra(
+                        "POPULARITY", Popularity(
+                            "Followings",
+                            userDetailViewModel.userName.get()!!
+                        )
+                    )
             )
         }
         buttonShowRepository.setOnClickListener {
-            Toast.makeText(this, "Repository coming soon", Toast.LENGTH_SHORT).show()
+            startActivity(
+                Intent(this@UserDetailActivity, RepoActivity::class.java)
+                    .putExtra("USERNAME", userDetailViewModel.userName.get()!!)
+            )
         }
     }
 

@@ -2,11 +2,14 @@ package com.xoxoer.gitpocket.di
 
 import com.xoxoer.gitpocket.di.popularity.PopularityModule
 import com.xoxoer.gitpocket.di.popularity.PopularityViewModelModule
+import com.xoxoer.gitpocket.di.repo.RepoModule
+import com.xoxoer.gitpocket.di.repo.RepoViewModelModule
 import com.xoxoer.gitpocket.di.user.UserModule
 import com.xoxoer.gitpocket.di.user.UserViewModelModule
 import com.xoxoer.gitpocket.di.userdetail.UserDetailModelModule
 import com.xoxoer.gitpocket.di.userdetail.UserDetailModule
 import com.xoxoer.gitpocket.ui.popularity.PopularityActivity
+import com.xoxoer.gitpocket.ui.repo.RepoActivity
 import com.xoxoer.gitpocket.ui.splash.SplashActivity
 import com.xoxoer.gitpocket.ui.user.UserActivity
 import com.xoxoer.gitpocket.ui.userdetail.UserDetailActivity
@@ -39,6 +42,14 @@ abstract class ActivityBuildersModule {
         ]
     )
     abstract fun contributePopularityActivity(): PopularityActivity
+
+    @ContributesAndroidInjector(
+        modules = [
+            RepoViewModelModule::class,
+            RepoModule::class
+        ]
+    )
+    abstract fun contributeRepoActivity(): RepoActivity
 
     @ContributesAndroidInjector
     abstract fun contributeSplashActivity(): SplashActivity
