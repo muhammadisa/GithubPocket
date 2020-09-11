@@ -87,10 +87,14 @@ class UserDetailActivity : DaggerAppCompatActivity() {
             )
         }
         textViewLinks.setOnClickListener {
-            it.context.startActivity(
-                Intent(Intent.ACTION_VIEW)
-                    .setData(Uri.parse(textViewLinks.text.toString()))
-            )
+            if (textViewLinks.text.toString().isNotEmpty()) {
+                it.context.startActivity(
+                    Intent(Intent.ACTION_VIEW)
+                        .setData(Uri.parse(textViewLinks.text.toString()))
+                )
+            } else {
+                Toast.makeText(this, "No links", Toast.LENGTH_SHORT).show()
+            }
         }
         textViewEmail.setOnClickListener {
             if (textViewEmail.text.toString().isNotEmpty()) {
@@ -102,15 +106,19 @@ class UserDetailActivity : DaggerAppCompatActivity() {
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject")
                 emailIntent.putExtra(Intent.EXTRA_TEXT, "Body")
                 startActivity(Intent.createChooser(emailIntent, "Send email..."))
-            }else{
+            } else {
                 Toast.makeText(this, "No email", Toast.LENGTH_SHORT).show()
             }
         }
         textViewTweeterName.setOnClickListener {
-            it.context.startActivity(
-                Intent(Intent.ACTION_VIEW)
-                    .setData(Uri.parse("https://twitter.com/${textViewTweeterName.text}"))
-            )
+            if (textViewTweeterName.text.toString().isNotEmpty()) {
+                it.context.startActivity(
+                    Intent(Intent.ACTION_VIEW)
+                        .setData(Uri.parse("https://twitter.com/${textViewTweeterName.text}"))
+                )
+            } else {
+                Toast.makeText(this, "No tweeter", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
