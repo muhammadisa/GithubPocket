@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
+import com.xoxoer.gitpocket.BuildConfig
 import com.xoxoer.gitpocket.Constants
 import com.xoxoer.gitpocket.R
 import com.xoxoer.lifemarklibrary.Lifemark
@@ -34,7 +35,8 @@ object AppModule {
     fun providesRetrofitInstance(): Retrofit {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+            else HttpLoggingInterceptor.Level.NONE
         }
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
