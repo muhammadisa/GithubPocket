@@ -14,4 +14,5 @@
     <string name="load_more">Load more</string>
     <string name="page">Page</string>
     <string name="visit_repository">Visit repository</string>
+    <string name="loading">Loading</string>
 </resources>

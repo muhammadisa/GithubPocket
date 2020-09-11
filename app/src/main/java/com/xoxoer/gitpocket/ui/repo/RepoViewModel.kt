@@ -28,7 +28,6 @@ class RepoViewModel @Inject constructor(
     val userRepositorySuccess: LiveData<List<GitRepo>>
         get() = _userRepositorySuccess
 
-    override var valid = ObservableBoolean()
     override val isLoading = MutableLiveData<Boolean>()
     override val error = ObservableField<Boolean>()
     override val errorReason = ObservableField<String>()

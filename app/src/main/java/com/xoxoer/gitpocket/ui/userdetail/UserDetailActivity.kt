@@ -1,6 +1,7 @@
 package com.xoxoer.gitpocket.ui.userdetail
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import com.xoxoer.gitpocket.models.userdetail.GitUserDetail
 import com.xoxoer.gitpocket.ui.popularity.PopularityActivity
 import com.xoxoer.gitpocket.ui.repo.RepoActivity
 import com.xoxoer.gitpocket.util.common.circle
+import com.xoxoer.gitpocket.util.common.createLoading
 import com.xoxoer.gitpocket.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_user_detail.*
@@ -19,6 +21,8 @@ import javax.inject.Inject
 class UserDetailActivity : DaggerAppCompatActivity() {
 
     private lateinit var userDetailViewModel: UserDetailViewModel
+
+    private lateinit var loadingDialog: Dialog
 
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
@@ -51,6 +55,7 @@ class UserDetailActivity : DaggerAppCompatActivity() {
     }
 
     private fun initUI() {
+        loadingDialog = createLoading()
         buttonShowFollowers.setOnClickListener {
             startActivity(
                 Intent(this@UserDetailActivity, PopularityActivity::class.java)
@@ -95,6 +100,11 @@ class UserDetailActivity : DaggerAppCompatActivity() {
             userDetailViewModel.userName.set(this.toString())
             userDetailViewModel.retrieveUserDetail()
         }
+
+        userDetailViewModel.isLoading.observe(this, Observer { loading ->
+            if (loading) loadingDialog.show()
+            else loadingDialog.dismiss()
+        })
 
         // retrieve section
         userDetailViewModel.userDetailSuccess.observe(this, Observer { userDetail ->

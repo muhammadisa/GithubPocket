@@ -1,5 +1,6 @@
 package com.xoxoer.gitpocket.ui.popularity
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -9,6 +10,7 @@ import com.xoxoer.gitpocket.R
 import com.xoxoer.gitpocket.models.parcelable.Popularity
 import com.xoxoer.gitpocket.models.user.Item
 import com.xoxoer.gitpocket.ui.user.adapter.UsersAdapter
+import com.xoxoer.gitpocket.util.common.createLoading
 import com.xoxoer.gitpocket.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_popularity.*
@@ -20,6 +22,7 @@ class PopularityActivity : DaggerAppCompatActivity() {
 
     private lateinit var usersRecyclerView: RecyclerView
     private lateinit var usersAdapter: UsersAdapter
+    private lateinit var loadingDialog: Dialog
 
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
@@ -49,6 +52,7 @@ class PopularityActivity : DaggerAppCompatActivity() {
     }
 
     private fun initUI() {
+        loadingDialog = createLoading()
         buttonLoadMorePopularity.setOnClickListener {
             val currentPage = popularityViewModel.page.get()!!
             popularityViewModel.page.set(currentPage + 1)
@@ -80,6 +84,12 @@ class PopularityActivity : DaggerAppCompatActivity() {
         }
         initUI()
         initUserAdapter()
+
+        // loading trigger
+        popularityViewModel.isLoading.observe(this, Observer { loading ->
+            if (loading) loadingDialog.show()
+            else loadingDialog.dismiss()
+        })
 
         // retrieve section
         popularityViewModel.userPopularitySuccess.observe(this, Observer { users ->

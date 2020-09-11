@@ -1,7 +1,7 @@
 package com.xoxoer.gitpocket.ui.repo
 
+import android.app.Dialog
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xoxoer.gitpocket.R
 import com.xoxoer.gitpocket.models.repo.GitRepo
 import com.xoxoer.gitpocket.ui.repo.adapter.RepoAdapter
+import com.xoxoer.gitpocket.util.common.createLoading
 import com.xoxoer.gitpocket.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_popularity.*
 import kotlinx.android.synthetic.main.activity_repo.*
 import javax.inject.Inject
 
@@ -21,6 +21,7 @@ class RepoActivity : DaggerAppCompatActivity() {
 
     private lateinit var repoRecyclerView: RecyclerView
     private lateinit var repoAdapter: RepoAdapter
+    private lateinit var loadingDialog: Dialog
 
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
@@ -50,6 +51,7 @@ class RepoActivity : DaggerAppCompatActivity() {
     }
 
     private fun initUI() {
+        loadingDialog = createLoading()
         buttonLoadMoreRepo.setOnClickListener {
             val currentPage = repoViewModel.page.get()!!
             repoViewModel.page.set(currentPage + 1)
@@ -73,6 +75,11 @@ class RepoActivity : DaggerAppCompatActivity() {
         }
         initUI()
         initRepoAdapter()
+
+        repoViewModel.isLoading.observe(this, Observer { loading ->
+            if (loading) loadingDialog.show()
+            else loadingDialog.dismiss()
+        })
 
         // retrieve section
         repoViewModel.userRepositorySuccess.observe(this, Observer { repositories ->

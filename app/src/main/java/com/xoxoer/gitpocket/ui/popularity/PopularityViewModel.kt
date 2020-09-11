@@ -29,7 +29,6 @@ class PopularityViewModel @Inject constructor(
     val userPopularitySuccess: LiveData<List<Item>>
         get() = _userPopularitySuccess
 
-    override var valid = ObservableBoolean()
     override val isLoading = MutableLiveData<Boolean>()
     override val error = ObservableField<Boolean>()
     override val errorReason = ObservableField<String>()

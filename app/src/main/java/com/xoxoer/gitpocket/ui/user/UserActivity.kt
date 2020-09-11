@@ -1,5 +1,6 @@
 package com.xoxoer.gitpocket.ui.user
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xoxoer.gitpocket.R
 import com.xoxoer.gitpocket.models.user.GitUsers
 import com.xoxoer.gitpocket.ui.user.adapter.UsersAdapter
+import com.xoxoer.gitpocket.util.common.createLoading
 import com.xoxoer.gitpocket.util.common.dismissKeyboard
 import com.xoxoer.gitpocket.util.common.onSearchPressed
 import com.xoxoer.gitpocket.util.common.onTextChange
@@ -23,6 +25,7 @@ class UserActivity : DaggerAppCompatActivity() {
 
     private lateinit var usersRecyclerView: RecyclerView
     private lateinit var usersAdapter: UsersAdapter
+    private lateinit var loadingDialog: Dialog
 
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
@@ -50,6 +53,7 @@ class UserActivity : DaggerAppCompatActivity() {
     }
 
     private fun initUI() {
+        loadingDialog = createLoading()
         editTextSearchUser.onTextChange { query ->
             userViewModel.searchQuery.set(query)
         }
@@ -83,6 +87,12 @@ class UserActivity : DaggerAppCompatActivity() {
         initUI()
         setToolbar()
         initUserAdapter()
+
+        // loading trigger
+        userViewModel.isLoading.observe(this, Observer { loading ->
+            if (loading) loadingDialog.show()
+            else loadingDialog.dismiss()
+        })
 
         // retrieve section
         userViewModel.usersSuccess.observe(this, Observer { users ->
