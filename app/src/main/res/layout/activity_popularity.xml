@@ -40,11 +40,15 @@
                 android:layout_height="match_parent"
                 tools:listitem="@layout/card_view_user" />
 
-            <Button
-                android:id="@+id/buttonLoadMorePopularity"
+            <TextView
+                android:id="@+id/textViewLoadMorePopularity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/load_more" />
+                android:gravity="center"
+                android:textColor="@color/blue"
+                android:background="@color/transparent"
+                android:padding="10dp"
+                android:text="@string/load_more"/>
 
         </LinearLayout>
 

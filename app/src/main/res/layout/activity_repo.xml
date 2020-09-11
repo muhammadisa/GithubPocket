@@ -40,11 +40,15 @@
                 android:layout_height="match_parent"
                 tools:listitem="@layout/card_view_repo" />
 
-            <Button
-                android:id="@+id/buttonLoadMoreRepo"
+            <TextView
+                android:id="@+id/textViewLoadMoreRepo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/load_more" />
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/load_more"
+                android:textColor="@color/blue" />
 
         </LinearLayout>
 

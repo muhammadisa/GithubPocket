@@ -2,6 +2,7 @@ package com.xoxoer.gitpocket.ui.repo
 
 import android.app.Dialog
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.xoxoer.gitpocket.util.common.createLoading
 import com.xoxoer.gitpocket.viewmodels.ViewModelProviderFactory
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_repo.*
+import kotlinx.android.synthetic.main.activity_user.*
 import javax.inject.Inject
 
 class RepoActivity : DaggerAppCompatActivity() {
@@ -47,12 +49,17 @@ class RepoActivity : DaggerAppCompatActivity() {
     }
 
     private fun bindUI(gitRepos: List<GitRepo>) {
-        repoAdapter.setRepos(gitRepos, repoViewModel.append.get())
+        if (gitRepos.isEmpty()) Toast.makeText(
+            this,
+            "No repo to load more",
+            Toast.LENGTH_SHORT
+        ).show()
+        else repoAdapter.setRepos(gitRepos, repoViewModel.append.get())
     }
 
     private fun initUI() {
         loadingDialog = createLoading()
-        buttonLoadMoreRepo.setOnClickListener {
+        textViewLoadMoreRepo.setOnClickListener {
             val currentPage = repoViewModel.page.get()!!
             repoViewModel.page.set(currentPage + 1)
             repoViewModel.append.set(true)

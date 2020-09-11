@@ -2,6 +2,7 @@ package com.xoxoer.gitpocket.ui.popularity
 
 import android.app.Dialog
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,12 +49,17 @@ class PopularityActivity : DaggerAppCompatActivity() {
     }
 
     private fun bindUI(gitPopularity: List<Item>) {
-        usersAdapter.setUsers(gitPopularity, popularityViewModel.append.get())
+        if (gitPopularity.isEmpty()) Toast.makeText(
+            this,
+            "No ${popularityViewModel.mode.get()} to load more",
+            Toast.LENGTH_SHORT
+        ).show()
+        else usersAdapter.setUsers(gitPopularity, popularityViewModel.append.get())
     }
 
     private fun initUI() {
         loadingDialog = createLoading()
-        buttonLoadMorePopularity.setOnClickListener {
+        textViewLoadMorePopularity.setOnClickListener {
             val currentPage = popularityViewModel.page.get()!!
             popularityViewModel.page.set(currentPage + 1)
             popularityViewModel.append.set(true)

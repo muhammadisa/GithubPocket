@@ -3,7 +3,9 @@ package com.xoxoer.gitpocket.ui.userdetail
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.xoxoer.gitpocket.R
@@ -82,6 +84,32 @@ class UserDetailActivity : DaggerAppCompatActivity() {
             startActivity(
                 Intent(this@UserDetailActivity, RepoActivity::class.java)
                     .putExtra("USERNAME", userDetailViewModel.userName.get()!!)
+            )
+        }
+        textViewLinks.setOnClickListener {
+            it.context.startActivity(
+                Intent(Intent.ACTION_VIEW)
+                    .setData(Uri.parse(textViewLinks.text.toString()))
+            )
+        }
+        textViewEmail.setOnClickListener {
+            if (textViewEmail.text.toString().isNotEmpty()) {
+                val emailIntent = Intent(
+                    Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto", textViewEmail.text.toString(), null
+                    )
+                )
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject")
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Body")
+                startActivity(Intent.createChooser(emailIntent, "Send email..."))
+            }else{
+                Toast.makeText(this, "No email", Toast.LENGTH_SHORT).show()
+            }
+        }
+        textViewTweeterName.setOnClickListener {
+            it.context.startActivity(
+                Intent(Intent.ACTION_VIEW)
+                    .setData(Uri.parse("https://twitter.com/${textViewTweeterName.text}"))
             )
         }
     }
