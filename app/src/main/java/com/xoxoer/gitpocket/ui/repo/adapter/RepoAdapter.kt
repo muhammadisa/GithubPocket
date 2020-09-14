@@ -13,8 +13,6 @@ import kotlinx.android.synthetic.main.card_view_repo.view.*
 
 class RepoAdapter : RecyclerView.Adapter<RepoAdapter.ReposViewHolder>() {
 
-    private val tag = "RepoAdapter"
-
     private val repos: MutableList<GitRepo> = mutableListOf()
 
     internal fun setRepos(repos: List<GitRepo>, append: Boolean) {

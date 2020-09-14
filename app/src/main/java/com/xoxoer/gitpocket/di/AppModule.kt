@@ -9,6 +9,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.xoxoer.gitpocket.BuildConfig
 import com.xoxoer.gitpocket.Constants
 import com.xoxoer.gitpocket.R
+import com.xoxoer.gitpocket.util.apisingleobserver.RxSingleHandler
+import com.xoxoer.gitpocket.viewmodels.ViewModelContract
 import com.xoxoer.lifemarklibrary.Lifemark
 import dagger.Module
 import dagger.Provides

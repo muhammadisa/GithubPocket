@@ -1,23 +1,24 @@
 package com.xoxoer.gitpocket.ui.user
 
-import android.util.Log
+import android.app.Application
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.xoxoer.gitpocket.models.user.GitUsers
-import com.xoxoer.gitpocket.util.apisingleobserver.ApiSingleObserver
-import com.xoxoer.gitpocket.util.apisingleobserver.Error
+import com.xoxoer.gitpocket.util.apisingleobserver.RxSingleHandler
 import com.xoxoer.gitpocket.viewmodels.ViewModelContract
 import com.xoxoer.lifemarklibrary.Lifemark
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class UserViewModel @Inject constructor(
-    private val lifemark: Lifemark,
+    application: Application,
+    lifemark: Lifemark,
     private val userRepository: UserRepository
 ) : ViewModel(), ViewModelContract {
+
+    private val pageLength = 10
 
     var searchQuery = ObservableField("")
     var page = ObservableField(1)
@@ -28,19 +29,10 @@ class UserViewModel @Inject constructor(
     val usersSuccess: LiveData<GitUsers>
         get() = _usersSuccess
 
+    private val rxSingleHandler = RxSingleHandler(application, lifemark, this)
     override val isLoading = MutableLiveData<Boolean>()
     override val error = ObservableField<Boolean>()
     override val errorReason = ObservableField<String>()
-
-    private fun <T> errorDispatcher(
-        errorReason: String,
-        targetMutable: MutableLiveData<T>
-    ) {
-        this.error.set(true)
-        this.errorReason.set(errorReason)
-        targetMutable.value = null
-        Log.e("ERROR_REASON", this.errorReason.get()!!)
-    }
 
     private fun onStart() {
         isLoading.value = true
@@ -50,34 +42,14 @@ class UserViewModel @Inject constructor(
         isLoading.value = false
     }
 
-    private fun <T> handler(targetMutable: MutableLiveData<T>) =
-        object : ApiSingleObserver<T>(CompositeDisposable()) {
-            override fun onResult(data: T) {
-                targetMutable.value = data
-            }
-
-            override fun onError(e: Error) {
-                when (lifemark.isNetworkConnected()) {
-                    true -> errorDispatcher(
-                        e.message,
-                        targetMutable
-                    )
-                    false -> errorDispatcher(
-                        "No Internet Connection",
-                        targetMutable
-                    )
-                }
-            }
-        }
-
     fun retrieveUsers() {
         userRepository.getUsers(
             searchQuery.get()!!,
-            10,
+            pageLength,
             page.get()!!,
             { onStart() },
             { onFinish() },
-            handler(_usersSuccess)
+            rxSingleHandler.handler(_usersSuccess)
         )
     }
 }

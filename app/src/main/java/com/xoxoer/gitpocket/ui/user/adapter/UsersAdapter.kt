@@ -17,8 +17,6 @@ import kotlinx.android.synthetic.main.card_view_user.view.*
 
 class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
 
-    private val tag = "UserAdapter"
-
     private val users: MutableList<Item> = mutableListOf()
 
     internal fun setUsers(users: List<Item>, append: Boolean) {
@@ -58,7 +56,6 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.UsersViewHolder>() {
             userCardViewName.text = currentUser.login
             userCardViewType.text = currentUser.type
             userCardUser.setOnClickListener {
-                Log.e(tag, "current user ${currentUser.login}")
                 it.context.startActivity(
                     Intent(it.context, UserDetailActivity::class.java)
                         .putExtra("USERNAME", currentUser.login)
